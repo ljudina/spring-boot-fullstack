@@ -9,6 +9,7 @@ public class PingPongController {
     record PingPong(String result) {}
     @GetMapping("/ping")
     public PingPong getPingPong(){
+        //Increment pongs
         return new PingPong("Pong %s".formatted(++COUNTER));
     }
 }
