@@ -26,11 +26,12 @@ class CustomerRowMapperTest {
 
     @Test
     void mapRow() throws Exception {
-        Customer customer = new Customer(1, "Marko", "ljudina@gmail.com", 40);
+        Customer customer = new Customer(1, "Marko", "ljudina@gmail.com", 40, Gender.MALE);
         when(rs.getInt("id")).thenReturn(customer.getId());
         when(rs.getString("name")).thenReturn(customer.getName());
         when(rs.getString("email")).thenReturn(customer.getEmail());
         when(rs.getInt("age")).thenReturn(customer.getAge());
+        when(rs.getString("gender")).thenReturn(customer.getGender().toString());
 
         Customer actualCustomer = underTest.mapRow(rs, 1);
         assertThat(actualCustomer).isEqualTo(customer);

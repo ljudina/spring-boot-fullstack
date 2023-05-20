@@ -44,6 +44,7 @@ const App = () => {
                 <WrapItem key={index} justify={"center"}>
                     <CardWithImage
                         {...customer}
+                        imageNumber={index}
                     />
                 </WrapItem>
             ))}

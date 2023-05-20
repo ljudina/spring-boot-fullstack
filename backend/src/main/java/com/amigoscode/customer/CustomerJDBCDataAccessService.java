@@ -20,7 +20,7 @@ public class CustomerJDBCDataAccessService implements CustomerDAO{
     @Override
     public List<Customer> selectAllCustomers() {
         var sql = """
-                SELECT id, name, email, age 
+                SELECT id, name, email, age, gender 
                 FROM customer
                 """;
         return jdbcTemplate.query(sql, this.customerRowMapper);
@@ -29,7 +29,7 @@ public class CustomerJDBCDataAccessService implements CustomerDAO{
     @Override
     public Optional<Customer> selectCustomerById(Integer id) {
         var sql = """
-                SELECT id, name, email, age 
+                SELECT id, name, email, age, gender
                 FROM customer
                 WHERE id = ?
                 """;
@@ -41,14 +41,15 @@ public class CustomerJDBCDataAccessService implements CustomerDAO{
     @Override
     public void insertCustomer(Customer customer) {
         var sql = """
-                INSERT INTO customer (name, email, age)
-                VALUES(?, ?, ?)
+                INSERT INTO customer (name, email, age, gender)
+                VALUES(?, ?, ?, ?)
                 """;
         jdbcTemplate.update(
                 sql,
                 customer.getName(),
                 customer.getEmail(),
-                customer.getAge()
+                customer.getAge(),
+                customer.getGender().toString()
         );
     }
 
@@ -59,7 +60,8 @@ public class CustomerJDBCDataAccessService implements CustomerDAO{
                 SET 
                     name = ?,
                     email = ?,
-                    age = ?
+                    age = ?,
+                    gender = ?
                 WHERE id = ?
                 """;
         jdbcTemplate.update(
@@ -67,6 +69,7 @@ public class CustomerJDBCDataAccessService implements CustomerDAO{
                 customer.getName(),
                 customer.getEmail(),
                 customer.getAge(),
+                customer.getGender().toString(),
                 customer.getId()
         );
     }

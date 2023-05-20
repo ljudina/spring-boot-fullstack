@@ -3,6 +3,7 @@ package com.amigoscode.journey;
 import com.amigoscode.customer.Customer;
 import com.amigoscode.customer.CustomerRegistrationRequest;
 import com.amigoscode.customer.CustomerUpdateRequest;
+import com.amigoscode.customer.Gender;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class CustomerIntegrationTest {
         String name = FAKER.name().fullName();
         String email = name + "-" + UUID.randomUUID() + "@testemail.com";
         int age = RANDOM.nextInt(1, 100);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest(name, email, age);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest(name, email, age, Gender.MALE);
         //send post request
         webTestClient.post()
                 .uri(URI)
@@ -54,7 +55,7 @@ public class CustomerIntegrationTest {
                 .returnResult()
                 .getResponseBody();
 
-        Customer expectedCustomer = new Customer(name, email, age);
+        Customer expectedCustomer = new Customer(name, email, age, Gender.MALE);
 
         assertThat(allCustomers)
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
@@ -87,7 +88,7 @@ public class CustomerIntegrationTest {
         String name = FAKER.name().fullName();
         String email = name + "-" + UUID.randomUUID() + "@testemail.com";
         int age = RANDOM.nextInt(1, 100);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest(name, email, age);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest(name, email, age, Gender.MALE);
         //send post request
         webTestClient.post()
                 .uri(URI)
@@ -109,7 +110,7 @@ public class CustomerIntegrationTest {
                 .returnResult()
                 .getResponseBody();
 
-        Customer expectedCustomer = new Customer(name, email, age);
+        Customer expectedCustomer = new Customer(name, email, age, Gender.MALE);
 
         int id = allCustomers
                 .stream()
@@ -142,7 +143,7 @@ public class CustomerIntegrationTest {
         String name = FAKER.name().fullName();
         String email = name + "-" + UUID.randomUUID() + "@testemail.com";
         int age = RANDOM.nextInt(1, 100);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest(name, email, age);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest(name, email, age, Gender.MALE);
         //send post request
         webTestClient.post()
                 .uri(URI)
@@ -153,7 +154,7 @@ public class CustomerIntegrationTest {
                 .expectStatus()
                 .isOk();
 
-        Customer customer = new Customer(name, email, age);
+        Customer customer = new Customer(name, email, age, Gender.MALE);
 
         //get all customers
         List<Customer> allCustomers = webTestClient.get()
@@ -177,7 +178,7 @@ public class CustomerIntegrationTest {
         String newName = FAKER.name().fullName();
         String newEmail = name + "-" + UUID.randomUUID() + "@testemail.com";
         int newAge = RANDOM.nextInt(1, 100);
-        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(newName, newEmail, newAge);
+        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(newName, newEmail, newAge, Gender.MALE);
 
         webTestClient.put()
                 .uri(URI + "/{id}", id)
@@ -199,7 +200,7 @@ public class CustomerIntegrationTest {
                 .returnResult()
                 .getResponseBody();
 
-        Customer expectedCustomer = new Customer(id, newName, newEmail, newAge);
+        Customer expectedCustomer = new Customer(id, newName, newEmail, newAge, Gender.MALE);
 
         assertThat(updatedCustomer).isEqualTo(expectedCustomer);
     }

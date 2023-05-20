@@ -45,7 +45,8 @@ class CustomerServiceTest {
                 id,
                 "Marko",
                 "ljudina@gmail.com",
-                40
+                40,
+                Gender.MALE
         );
         when(customerDAO.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
@@ -66,7 +67,7 @@ class CustomerServiceTest {
     void addCustomer() {
         String email = "ljudina@gmail.com";
         when(customerDAO.existsPersonWithEmail(email)).thenReturn(false);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Marko", email, 40);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Marko", email, 40, Gender.MALE);
         underTest.addCustomer(request);
 
         ArgumentCaptor<Customer> customerArgumentCaptor = ArgumentCaptor.forClass(Customer.class);
@@ -83,7 +84,7 @@ class CustomerServiceTest {
     void addCustomerEmailAlreadyExists() {
         String email = "ljudina@gmail.com";
         when(customerDAO.existsPersonWithEmail(email)).thenReturn(true);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Marko", email, 40);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Marko", email, 40, Gender.MALE);
         assertThatThrownBy(() -> underTest.addCustomer(request))
                 .isInstanceOf(DuplicateResourceException.class)
                 .hasMessage("Customer with email [%s] already exists!".formatted(request.email()));
@@ -93,18 +94,19 @@ class CustomerServiceTest {
     @Test
     void updateCustomerAllFieldsChanged() {
         int id = 1;
-        Customer customer = new Customer(id, "Marko", "ljudina@gmail.com", 40);
+        Customer customer = new Customer(id, "Marko", "ljudina@gmail.com", 40, Gender.MALE);
         when(customerDAO.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
         String newEmail = "ljudina83@gmail.com";
         CustomerUpdateRequest customerUpdateRequest = new CustomerUpdateRequest(
-                "Marko Jovanovic", newEmail, 20
+                "Marko Jovanovic", newEmail, 20, Gender.MALE
         );
         Customer updatedCustomer = new Customer(
                 id,
                 customerUpdateRequest.name(),
                 customerUpdateRequest.email(),
-                customerUpdateRequest.age()
+                customerUpdateRequest.age(),
+                customerUpdateRequest.gender()
         );
         when(customerDAO.existsPersonWithEmail(newEmail)).thenReturn(false);
         underTest.updateCustomer(id, customerUpdateRequest);
@@ -114,12 +116,12 @@ class CustomerServiceTest {
     @Test
     void updateCustomerEmailExists() {
         int id = 1;
-        Customer customer = new Customer(id, "Marko", "ljudina@gmail.com", 40);
+        Customer customer = new Customer(id, "Marko", "ljudina@gmail.com", 40, Gender.MALE);
         when(customerDAO.selectCustomerById(id)).thenReturn(Optional.of(customer));
         String newEmail = "ljudina83@gmail.com";
         when(customerDAO.existsPersonWithEmail(newEmail)).thenReturn(true);
         CustomerUpdateRequest customerUpdateRequest = new CustomerUpdateRequest(
-                "Marko Jovanovic", newEmail, 20
+                "Marko Jovanovic", newEmail, 20, Gender.MALE
         );
         assertThatThrownBy(() -> underTest.updateCustomer(id, customerUpdateRequest))
                 .isInstanceOf(DuplicateResourceException.class)
@@ -129,10 +131,10 @@ class CustomerServiceTest {
     @Test
     void updateCustomerNotChanged() {
         int id = 1;
-        Customer customer = new Customer(id, "Marko", "ljudina@gmail.com", 40);
+        Customer customer = new Customer(id, "Marko", "ljudina@gmail.com", 40, Gender.MALE);
         when(customerDAO.selectCustomerById(id)).thenReturn(Optional.of(customer));
         CustomerUpdateRequest customerUpdateRequest = new CustomerUpdateRequest(
-                customer.getName(), customer.getEmail(), customer.getAge()
+                customer.getName(), customer.getEmail(), customer.getAge(), customer.getGender()
         );
         assertThatThrownBy(() -> underTest.updateCustomer(id, customerUpdateRequest))
                 .isInstanceOf(RequestValidationException.class)
