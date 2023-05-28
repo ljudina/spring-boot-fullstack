@@ -69,7 +69,7 @@ jobs:
           region: ${{ secrets.EB_REGION }}
           deployment_package: Dockerrun.aws.json
           version_description: ${{ github.SHA }}
-          wait_for_enviroment_recovery: 60
+          wait_for_environment_recovery: 60
       - name: Send Slack Message
         run: >
           curl -X POST -H 'Content-type: application/json' 
