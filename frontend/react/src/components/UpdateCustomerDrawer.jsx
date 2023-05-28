@@ -13,7 +13,7 @@ const UpdateCustomerDrawer = ({ fetchCustomers, initialValues, customerId }) => 
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Update customer</DrawerHeader>
+                <DrawerHeader>Update Customer</DrawerHeader>
 
                 <DrawerBody>
                     <UpdateCustomerFrom fetchCustomers={fetchCustomers} initialValues={initialValues} customerId={customerId} drawerClose={onClose}/>
