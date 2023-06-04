@@ -14,16 +14,14 @@ public class CustomerListDataAccessService implements CustomerDAO{
         customers = new ArrayList<>();
         Customer alex = new Customer(
                 1,
-                "Alex",
-                "alex@gmail.com",
+                "alex@gmail.com", "password", "Alex",
                 21,
                 Gender.MALE
         );
         customers.add(alex);
         Customer jamila = new Customer(
                 2,
-                "Jamila",
-                "jamila@gmail.com",
+                "jamila@gmail.com", "password", "Jamila",
                 19,
                 Gender.FEMALE
         );
@@ -77,5 +75,12 @@ public class CustomerListDataAccessService implements CustomerDAO{
     @Override
     public void deleteCustomerById(Integer id) {
         customers.removeIf(customer -> customer.getId().equals(id));
+    }
+
+    @Override
+    public Optional<Customer> selectUserByEmail(String email) {
+        return customers.stream()
+                .filter(customer -> customer.getUsername().equals(email))
+                .findFirst();
     }
 }
