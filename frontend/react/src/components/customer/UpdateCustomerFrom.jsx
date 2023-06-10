@@ -1,8 +1,8 @@
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import {Alert, AlertIcon, FormLabel, Input, Select, Box, Button, Stack} from "@chakra-ui/react";
-import {saveCustomer, updateCustomer} from "../services/client.js";
-import {errorNotification, successNotification} from "../services/notification.js";
+import {saveCustomer, updateCustomer} from "../../services/client.js";
+import {errorNotification, successNotification} from "../../services/notification.js";
 
 const MyTextInput = ({ label, ...props }) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]

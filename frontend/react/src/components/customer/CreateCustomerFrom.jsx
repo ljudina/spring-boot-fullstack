@@ -1,8 +1,8 @@
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import {Alert, AlertIcon, FormLabel, Input, Select, Box, Button, Stack} from "@chakra-ui/react";
-import {saveCustomer} from "../services/client.js";
-import {errorNotification, successNotification} from "../services/notification.js";
+import {saveCustomer} from "../../services/client.js";
+import {errorNotification, successNotification} from "../../services/notification.js";
 
 const MyTextInput = ({ label, ...props }) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -48,6 +48,7 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                 initialValues={{
                     name: '',
                     email: '',
+                    password: '',
                     age: 0,
                     gender: '',
                 }}
@@ -58,6 +59,9 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                     email: Yup.string()
                         .email('Invalid email address')
                         .required('Required'),
+                    password: Yup.string()
+                        .max(20, "Password can not be more than 20 characters")
+                        .required("Password is required"),
                     age: Yup.number()
                         .min(16, 'Must be at least 16 years of age or older')
                         .max(100, 'Must be less than 100 years of age')
@@ -107,6 +111,12 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                                 type="email"
                                 placeholder="jane@formik.com"
                                 autoComplete="off"
+                            />
+
+                            <MyTextInput
+                                label={"Password"}
+                                name={"password"}
+                                type={"password"}
                             />
 
                             <MyTextInput
