@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "amigoscode-react",
-      "image": "ljudina/amigoscode-react:10.06.2023.19.17.49",
+      "image": "ljudina/amigoscode-react:10.06.2023.19.22.30",
       "essential": true,
       "memory": 256,
       "portMappings": [
