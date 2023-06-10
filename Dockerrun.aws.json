@@ -15,7 +15,7 @@
     },
     {
       "name": "amigoscode-api",
-      "image": "ljudina/amigoscode-api:04.06.2023.18.58.03",
+      "image": "ljudina/amigoscode-api:04.06.2023.19.12.56",
       "essential": true,
       "memory": 512,
       "portMappings": [
