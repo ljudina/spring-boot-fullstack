@@ -61,8 +61,8 @@ const App = () => {
         <SidebarWithHeader>
             <CreateCustomerDrawer fetchCustomers={fetchCustomers} />
             <Wrap spacing={"15px"} mt={"10px"}>
-            {customers.map((customer, index) => (
-                <WrapItem key={index} justify={"center"}>
+            {customers.map((customer) => (
+                <WrapItem key={customer.id} justify={"center"}>
                     <CardWithImage
                         {...customer}
                         imageNumber={customer.id}
