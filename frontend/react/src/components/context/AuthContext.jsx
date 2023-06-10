@@ -4,21 +4,25 @@ import jwtDecode from "jwt-decode";
 const AuthContext = createContext({})
 const AuthProvider = ({children}) => {
     const [customer, setCustomer] = useState(null);
-    useEffect(() => {
+    const setCustomerAndToken = () => {
         let token = localStorage.getItem("access_token");
         if(token){
             const customerJson = localStorage.getItem("customer");
             const customerObj = JSON.parse(customerJson);
             setCustomer({...customerObj});
         }
+    }
+    useEffect(() => {
+        setCustomerAndToken();
     }, [])
+
     const login = async (credentials) => {
         return new Promise((resolve, reject) => {
             preformLogin(credentials).then(res => {
                 const jwtToken = res.headers["authorization"];
                 localStorage.setItem("access_token", jwtToken);
                 localStorage.setItem("customer", JSON.stringify({...res.data.customerDTO}));
-                setCustomer({...res.data.customerDTO});
+                setCustomerAndToken();
                 resolve(res)
             }).catch(err => {
                 reject(err)
@@ -44,7 +48,7 @@ const AuthProvider = ({children}) => {
     }
     return(
         <AuthContext.Provider value={{
-            customer, login, logOut, isCustomerAuthenticated
+            customer, login, logOut, isCustomerAuthenticated, setCustomerAndToken
         }}>
             {children}
         </AuthContext.Provider>

@@ -31,7 +31,6 @@ export default function CardWithImage({id, name, email, age, gender, imageNumber
                     "Customer deleted",
                     `Customer ${name} was successfully deleted!`
                 );
-                console.log(res);
                 fetchCustomers();
             })
             .catch(err => {

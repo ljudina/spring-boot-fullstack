@@ -9,8 +9,13 @@ import { createStandaloneToast } from '@chakra-ui/react'
 import Login from "./components/login/Login.jsx";
 import AuthProvider from "./components/context/AuthContext.jsx";
 import ProtectedRoute from "./components/shared/ProtectedRoute.jsx";
+import Signup from "./components/signup/Signup.jsx";
 const { ToastContainer } = createStandaloneToast()
 const router = createBrowserRouter([
+    {
+        path: "/signup",
+        element: <Signup />
+    },
     {
         path: "/",
         element: <Login />

@@ -60,9 +60,10 @@ const LoginForm = () => {
                 login(values).then(res => {
                     navigate("/dashboard")
                 }).catch(err => {
+                    const error = err.response ? err.response.data.message : "Server not available!";
                     errorNotification(
                         err.code,
-                        err.response.data.message
+                        error
                     );
                 }).finally(() => {
                     setSubmitting(false);
@@ -102,6 +103,9 @@ const Login = () => {
                     />
                     <Heading fontSize={'2xl'} mb={15}>Sign in</Heading>
                     <LoginForm />
+                    <Link color={'blue.500'} href={"/signup"}>
+                        Dont have account? Sign up now.
+                    </Link>
                 </Stack>
             </Flex>
             <Flex

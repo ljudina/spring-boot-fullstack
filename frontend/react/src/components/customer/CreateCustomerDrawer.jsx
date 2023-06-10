@@ -1,6 +1,6 @@
 import { Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import CreateCustomerForm from "./CreateCustomerFrom.jsx";
+import CreateCustomerForm from "../shared/CreateCustomerFrom.jsx";
 const AddIcon = () => "+";
 const CloseIcon = () => "x";
 const CreateCustomerDrawer = ({ fetchCustomers }) => {
@@ -20,7 +20,7 @@ const CreateCustomerDrawer = ({ fetchCustomers }) => {
                 <DrawerHeader>Create your account</DrawerHeader>
 
                 <DrawerBody>
-                    <CreateCustomerForm fetchCustomers={fetchCustomers}/>
+                    <CreateCustomerForm onSuccess={fetchCustomers}/>
                 </DrawerBody>
 
                 <DrawerFooter>
