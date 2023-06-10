@@ -100,7 +100,7 @@ const Login = () => {
                         alt={"Amigoscode logo"}
                         alignSelf={"center"}
                     />
-                    <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
+                    <Heading fontSize={'2xl'} mb={15}>Sign in</Heading>
                     <LoginForm />
                 </Stack>
             </Flex>
