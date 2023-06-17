@@ -8,6 +8,12 @@ cors:
   allowed-headers: "*"
   exposed-headers: "*"
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+
 spring:
   main:
     web-application-type: servlet
