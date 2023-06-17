@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "amigoscode-api",
-      "image": "ljudina/amigoscode-api:04.06.2023.19.12.56",
+      "image": "ljudina/amigoscode-api:17.06.2023.08.26.12",
       "essential": true,
       "memory": 512,
       "portMappings": [
