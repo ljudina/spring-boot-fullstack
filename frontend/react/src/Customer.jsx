@@ -6,7 +6,7 @@ import CardWithImage from "./components/customer/CardWithImage.jsx";
 import CreateCustomerDrawer from "./components/customer/CreateCustomerDrawer.jsx";
 import {errorNotification} from "./services/notification.js";
 
-const App = () => {
+const Customer = () => {
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -75,4 +75,4 @@ const App = () => {
     )
 }
 
-export default App;
+export default Customer;
