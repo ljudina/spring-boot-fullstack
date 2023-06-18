@@ -58,7 +58,7 @@ const LoginForm = () => {
             onSubmit={(values, {setSubmitting}) => {
                 setSubmitting(true);
                 login(values).then(res => {
-                    navigate("/dashboard")
+                    navigate("/dashboard/customers")
                 }).catch(err => {
                     const error = err.response ? err.response.data.message : "Server not available!";
                     errorNotification(
