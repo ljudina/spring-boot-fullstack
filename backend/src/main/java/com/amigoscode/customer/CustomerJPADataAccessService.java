@@ -1,5 +1,7 @@
 package com.amigoscode.customer;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +18,8 @@ public class CustomerJPADataAccessService implements CustomerDAO{
 
     @Override
     public List<Customer> selectAllCustomers() {
-        return this.customerRepository.findAll();
+        Page<Customer> page = this.customerRepository.findAll(Pageable.ofSize(100));
+        return page.getContent();
     }
 
     @Override
