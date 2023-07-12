@@ -7,7 +7,12 @@ cors:
   allowed-methods: "*"
   allowed-headers: "*"
   exposed-headers: "*"
-
+aws:
+  region: "us-west-2"
+  s3:
+    mock: true
+    buckets:
+      customer: "ljudina-amigoscode-customer-test"
 management:
   endpoints:
     web:
@@ -29,3 +34,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  codec:
+    max-in-memory-size: 10MB

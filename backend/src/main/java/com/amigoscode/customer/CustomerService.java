@@ -3,11 +3,16 @@ package com.amigoscode.customer;
 import com.amigoscode.exception.DuplicateResourceException;
 import com.amigoscode.exception.RequestValidationException;
 import com.amigoscode.exception.ResourceNotFoundException;
+import com.amigoscode.s3.S3Buckets;
+import com.amigoscode.s3.S3Service;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,11 +21,15 @@ public class CustomerService {
     private final CustomerDAO customerDAO;
     private final PasswordEncoder passwordEncoder;
     private final CustomerDTOMapper customerDTOMapper;
+    private final S3Service s3Service;
+    private final S3Buckets buckets;
 
-    public CustomerService(@Qualifier("jpa") CustomerDAO customerDAO, PasswordEncoder passwordEncoder, CustomerDTOMapper customerDTOMapper) {
+    public CustomerService(@Qualifier("jpa") CustomerDAO customerDAO, PasswordEncoder passwordEncoder, CustomerDTOMapper customerDTOMapper, S3Service s3Service, S3Buckets buckets) {
         this.customerDAO = customerDAO;
         this.passwordEncoder = passwordEncoder;
         this.customerDTOMapper = customerDTOMapper;
+        this.s3Service = s3Service;
+        this.buckets = buckets;
     }
 
     public List<CustomerDTO> getAllCustomers(){
@@ -89,5 +98,30 @@ public class CustomerService {
             throw new ResourceNotFoundException("Customer with id [%s] not found!".formatted(id));
         }
         customerDAO.deleteCustomerById(id);
+    }
+
+    public void uploadCustomerProfileImage(Integer customerId, MultipartFile file) {
+        if(!customerDAO.existsPersonWithId(customerId)){
+            throw new ResourceNotFoundException("Customer with id [%s] not found!".formatted(customerId));
+        }
+        String profileImageId = UUID.randomUUID().toString();
+        try {
+            s3Service.putObject(buckets.getCustomer(), "profile-images/%s/%s".formatted(customerId, profileImageId), file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException("failed to upload customer profile image", e);
+        }
+        customerDAO.updateCustomerProfileImageId(profileImageId, customerId);
+    }
+
+    public byte[] getCustomerProfileImage(Integer customerId) {
+        Customer customer = customerDAO.selectCustomerById(customerId)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Customer with id [%s] not found!".formatted(customerId))
+                );
+        String profileImageId = customer.getProfileImageId();
+        if(profileImageId == null || profileImageId.isBlank()){
+            throw new ResourceNotFoundException("Customer with id [%s] profile image not found!".formatted(customerId));
+        }
+        return s3Service.getObject(buckets.getCustomer(), "profile-images/%s/%s".formatted(customerId, customer.getProfileImageId()));
     }
 }

@@ -99,4 +99,11 @@ class CustomerJPADataAccessServiceTest {
         underTest.deleteCustomerById(id);
         Mockito.verify(customerRepository).deleteById(id);
     }
+    @Test
+    void canUpdateProfileImageId() {
+        String profileImageId = "222";
+        Integer customerId = 1;
+        underTest.updateCustomerProfileImageId(profileImageId, customerId);
+        Mockito.verify(customerRepository).updateProfileImageId(profileImageId, customerId);
+    }
 }

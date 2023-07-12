@@ -175,4 +175,29 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         Optional<Customer> actual = underTest.selectCustomerById(id);
         assertThat(actual).isNotPresent();
     }
+
+    @Test
+    void canUpdateProfileImageId() {
+        var email = FAKER.internet().emailAddress() + "-" + UUID.randomUUID();
+        Customer customer = new Customer(
+                FAKER.name().fullName(),
+                email,
+                "password", 20,
+                Gender.MALE
+        );
+        underTest.insertCustomer(customer);
+        int id = underTest.selectAllCustomers()
+                .stream()
+                .filter(c -> c.getEmail().equals(email))
+                .map(Customer::getId)
+                .findFirst()
+                .orElseThrow();
+
+        String profileImageId = "222";
+        underTest.updateCustomerProfileImageId(profileImageId, id);
+        Optional<Customer> customerOptional = underTest.selectCustomerById(id);
+        assertThat(customerOptional).isPresent().hasValueSatisfying(c -> {
+            assertThat(c.getProfileImageId()).isEqualTo(profileImageId);
+        });
+    }
 }
