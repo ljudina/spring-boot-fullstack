@@ -31,6 +31,7 @@ import {
     FiUsers
 } from 'react-icons/fi';
 import {useAuth} from "../context/AuthContext.jsx";
+import {customerProfilePictureUrl} from "../../services/client.js";
 
 const LinkItems = [
     {name: 'Home', route: '/dashboard', icon: FiHome},
@@ -177,9 +178,7 @@ const MobileNav = ({onOpen, ...rest}) => {
                             <HStack>
                                 <Avatar
                                     size={'sm'}
-                                    src={
-                                        `https://randomuser.me/api/portraits/med/${randomUserGender}/${imageNumber}.jpg`
-                                    }
+                                    src={customerProfilePictureUrl(customer?.id)}
                                 />
                                 <VStack
                                     display={{base: 'none', md: 'flex'}}

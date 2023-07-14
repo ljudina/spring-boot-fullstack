@@ -317,7 +317,7 @@ public class CustomerIntegrationTest {
 
         byte[] downloadedImage = webTestClient.get()
                 .uri(uri)
-                .accept(MediaType.APPLICATION_JSON)
+                .accept(MediaType.IMAGE_JPEG)
                 .exchange()
                 .expectStatus()
                 .isOk()

@@ -1,6 +1,6 @@
 import {Center, Spinner, Text, Wrap, WrapItem} from '@chakra-ui/react'
 import SidebarWithHeader from './components/shared/Sidebar.jsx'
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {getCustomers} from "./services/client.js";
 import CardWithImage from "./components/customer/CardWithImage.jsx";
 import CreateCustomerDrawer from "./components/customer/CreateCustomerDrawer.jsx";
@@ -10,6 +10,7 @@ const Customer = () => {
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const dataFetch = useRef(false)
     const fetchCustomers = () => {
         getCustomers().then(res => {
             setCustomers(res.data);
@@ -24,7 +25,10 @@ const Customer = () => {
         })
     }
     useEffect(() => {
+        if(dataFetch.current)
+            return
         fetchCustomers();
+        dataFetch.current = true;
     }, []);
 
     if(error){
