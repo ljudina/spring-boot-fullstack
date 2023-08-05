@@ -3,6 +3,7 @@ aws:
     mock: false
 spring:
   datasource:
-    url: jdbc:postgresql://awseb-e-icxztsfwdv-stack-awsebrdsdatabase-nmezyximduvr.c3dalozr1mze.us-west-2.rds.amazonaws.com:5432/ebdb
-    username: amigoscode
-    password: password
+    url: jdbc-secretsmanager:postgresql://awseb-e-icxztsfwdv-stack-awsebrdsdatabase-nmezyximduvr.c3dalozr1mze.us-west-2.rds.amazonaws.com:5432/ebdb
+    username: test/full-stack/postgres
+    driver-class-name: com.amazonaws.secretsmanager.sql.AWSSecretsManagerPostgreSQLDriver
+
